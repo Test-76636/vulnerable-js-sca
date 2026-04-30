@@ -27,17 +27,17 @@ jobs:
       - name: Install Wasp
         run: curl -sSL https://get.wasp-lang.dev/installer.sh | sh
 
-      - run: |
+      - name: "Build wasp"
+        run: |
           cd wasp
           wasp db migrate-dev
-        name: "Build wasp"
 
-      - run: |
+      - name: "Updating generated code"
+        run: |
           rm -rf db
           rm -rf server
           rm -rf web-app
           cp -r wasp/.wasp/out/* .
-        name: "Updating generated code"
 
       - if: ${{ !(github.event_name == 'push' && github.ref == 'refs/heads/master') }}
         run: exit 0
