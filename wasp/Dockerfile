@@ -10,4 +10,5 @@ RUN wasp db migrate-dev
 
 EXPOSE 3000
 EXPOSE 3001
+USER node # Changed to a non-root user for security
 ENTRYPOINT ["wasp", "start"]
