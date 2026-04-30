@@ -71,10 +71,14 @@ jobs:
           echo WASP_IMAGE_ID=$WASP_IMAGE_ID
           echo VERSION=$VERSION
           
-          docker tag wasp $WASP_IMAGE_ID:$VERSION
-          docker tag wasp $WASP_IMAGE_ID:latest
-          docker push $WASP_IMAGE_ID:$VERSION
-          docker push $WASP_IMAGE_ID:latest
+          # Use intermediate environment variables to prevent code injection
+          echo "WASP_IMAGE_ID=$WASP_IMAGE_ID" >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          
+          docker tag wasp "$WASP_IMAGE_ID:$VERSION"
+          docker tag wasp "$WASP_IMAGE_ID:latest"
+          docker push "$WASP_IMAGE_ID:$VERSION"
+          docker push "$WASP_IMAGE_ID:latest"
 
       - name: Create commit
         id: create-commit
